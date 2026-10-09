@@ -1,0 +1,224 @@
+
+<%- include('../partials/header') %>
+
+<%- include('../partials/menu') %>
+
+<main class="container py-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="bi bi-wine"></i>
+                <%= produto ? 'Editar vinho' : 'Cadastrar vinho' %>
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <% if (!categorias.length) { %>
+                <div class="alert alert-warning">
+                    Antes de cadastrar um vinho,
+                    <a href="/admin/categorias/form-cadastrar">
+                        cadastre uma categoria
+                    </a>.
+                </div>
+            <% } %>
+
+            <form
+                action="<%= produto ? '/admin/produtos/editar/' + produto.id : '/admin/produtos/cadastrar' %>"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                <div class="row">
+
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label" for="nome">
+                            Nome do vinho
+                        </label>
+
+                        <input
+                            id="nome"
+                            type="text"
+                            name="nome"
+                            class="form-control"
+                            maxlength="150"
+                            value="<%= produto ? produto.nome : '' %>"
+                            required
+                        >
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label" for="categoria">
+                            Categoria
+                        </label>
+
+                        <select
+                            id="categoria"
+                            name="categoria"
+                            class="form-select"
+                            required
+                        >
+                            <option value="">Selecione</option>
+
+                            <% categorias.forEach(categoria => { %>
+                                <option
+                                    value="<%= categoria.nome %>"
+                                    <%= produto && produto.categoria === categoria.nome ? 'selected' : '' %>
+                                >
+                                    <%= categoria.nome %>
+                                </option>
+                            <% }) %>
+
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label" for="ano">
+                            Ano da safra
+                        </label>
+
+                        <input
+                            id="ano"
+                            type="number"
+                            name="ano"
+                            class="form-control"
+                            min="1900"
+                            max="<%= new Date().getFullYear() + 1 %>"
+                            placeholder="Ex.: 2022"
+                            value="<%= produto && produto.ano ? produto.ano : '' %>"
+                        >
+
+                        <div class="form-text">
+                            Ano de colheita das uvas (opcional).
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label" for="uva">
+                            Uva / variedade
+                        </label>
+
+                        <input
+                            id="uva"
+                            type="text"
+                            name="uva"
+                            class="form-control"
+                            maxlength="120"
+                            placeholder="Ex.: Cabernet Sauvignon, Merlot"
+                            value="<%= produto ? (produto.uva || '') : '' %>"
+                        >
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label" for="valor">
+                            Preço (R$)
+                        </label>
+
+                        <input
+                            id="valor"
+                            type="number"
+                            name="valor"
+                            class="form-control"
+                            min="0"
+                            step="0.01"
+                            value="<%= produto ? produto.valor : '' %>"
+                            required
+                        >
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label" for="estoque">
+                            Estoque (unidades)
+                        </label>
+
+                        <input
+                            id="estoque"
+                            type="number"
+                            name="estoque"
+                            class="form-control"
+                            min="0"
+                            step="1"
+                            value="<%= produto ? produto.estoque : 0 %>"
+                            required
+                        >
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label" for="imagem">
+                            Foto do vinho
+                            <%= produto ? '(opcional para manter a atual)' : '(opcional)' %>
+                        </label>
+
+                        <input
+                            id="imagem"
+                            type="file"
+                            name="imagem"
+                            class="form-control"
+                            accept="image/*"
+                        >
+
+                        <div class="form-text">
+                            Imagem de até 5 MB.
+                        </div>
+                    </div>
+
+                </div>
+
+                <% if (produto && produto.imagem) { %>
+                    <div class="mb-3">
+                        <p class="mb-1">Imagem atual:</p>
+
+                        <img
+                            src="/uploads/<%= encodeURIComponent(produto.imagem) %>"
+                            alt="Imagem atual do vinho"
+                            style="max-width: 140px; max-height: 180px; object-fit: contain;"
+                            class="border rounded p-1"
+                        >
+                    </div>
+                <% } %>
+
+                <div class="mb-3">
+                    <label class="form-label" for="descricao">
+                        Descrição
+                    </label>
+
+                    <textarea
+                        id="descricao"
+                        name="descricao"
+                        class="form-control"
+                        rows="4"
+                        maxlength="2000"
+                    ><%= produto ? (produto.descricao || '') : '' %></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    <%= !categorias.length ? 'disabled' : '' %>
+                >
+                    <i class="bi bi-check-circle"></i>
+                    <%= produto ? 'Salvar alterações' : 'Cadastrar vinho' %>
+                </button>
+
+                <a href="/admin/produtos" class="btn btn-secondary">
+                    Cancelar
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+<%- include('../partials/footer') %>

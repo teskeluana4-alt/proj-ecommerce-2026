@@ -1,0 +1,93 @@
+
+<%- include('partials/header') %>
+
+<%- include('partials/menu') %>
+
+<main class="container py-5">
+
+    <div class="bg-white p-5 rounded shadow-sm">
+
+        <h1 class="display-6">
+            <i class="bi bi-shop"></i>
+            Administração da Vinícola
+        </h1>
+
+        <p class="lead">
+            Gerencie os vinhos e as categorias da sua loja.
+        </p>
+
+        <hr>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <div class="card text-bg-primary h-100">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            <i class="bi bi-wine"></i>
+                            Vinhos
+                        </h5>
+
+                        <p class="card-text">
+                            Cadastre, consulte, edite e remova os vinhos disponíveis na loja.
+                        </p>
+
+                        <a href="/admin/produtos" class="btn btn-light">
+                            Ver vinhos
+                        </a>
+
+                        <a
+                            href="/admin/produtos/form-cadastrar"
+                            class="btn btn-outline-light"
+                        >
+                            Cadastrar vinho
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <div class="card text-bg-success h-100">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            <i class="bi bi-tags"></i>
+                            Categorias
+                        </h5>
+
+                        <p class="card-text">
+                            Organize os produtos em tintos, brancos, rosés, espumantes e outras categorias.
+                        </p>
+
+                        <a href="/admin/categorias" class="btn btn-light">
+                            Ver categorias
+                        </a>
+
+                        <a
+                            href="/admin/categorias/form-cadastrar"
+                            class="btn btn-outline-light"
+                        >
+                            Nova categoria
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<%- include('partials/footer') %>
